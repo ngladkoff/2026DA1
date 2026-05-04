@@ -16,7 +16,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import ar.edu.uade.c012026.animeapp.Anime
+import ar.edu.uade.c012026.animeapp.data.Anime
 import coil.compose.AsyncImage
 
 @Composable

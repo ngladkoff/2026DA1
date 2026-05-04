@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AnimeAppTheme {
-                AnimeListScreen()
+                NavigationStack()
             }
         }
     }

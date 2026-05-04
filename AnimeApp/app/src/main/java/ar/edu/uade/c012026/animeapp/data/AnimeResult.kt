@@ -1,4 +1,4 @@
-package ar.edu.uade.c012026.animeapp
+package ar.edu.uade.c012026.animeapp.data
 
 import com.google.gson.annotations.SerializedName
 
