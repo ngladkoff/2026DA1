@@ -1,6 +1,9 @@
 package ar.edu.uade.c012026.animeapp.data
 
 import android.util.Log
+import ar.edu.uade.c012026.animeapp.data.local.AnimeDatabaseProvider
+import ar.edu.uade.c012026.animeapp.data.local.toExternal
+import ar.edu.uade.c012026.animeapp.data.local.toLocal
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import okio.IOException
@@ -34,11 +37,25 @@ class AnimeApiDataSource: IAnimeDataSource {
     }
 
     override suspend fun getAnimeById(id: Int): Anime {
+
+
         val db = FirebaseFirestore.getInstance()
+        val dbLocal = AnimeDatabaseProvider.dbLocal
+
+        var animeLocal = dbLocal.animeDao().getAnimeById(id)
+
+        if(animeLocal != null) {
+            Log.d(TAG, "LOCAL: ${animeLocal.title}")
+            return animeLocal.toExternal()
+        }
+
+
         val animeResult = db.collection("Favoritos").document(id.toString()).get().await()
         var anime = animeResult.toObject(Anime::class.java);
         if(anime != null) {
             Log.d(TAG, "FIREBASE: ${anime.title}")
+            dbLocal.animeDao().insertAnime(anime.toLocal())
+
             return anime
         };
 
@@ -46,6 +63,7 @@ class AnimeApiDataSource: IAnimeDataSource {
         anime = RetrofitInstance.animeAPI.getAnimeById(id).data
         Log.d(TAG, "API: ${anime.title}")
         db.collection("Favoritos").document(id.toString()).set(anime);
+        dbLocal.animeDao().insertAnime(anime.toLocal())
         return  anime;
     }
 

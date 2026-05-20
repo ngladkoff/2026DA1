@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.uade.c012026.animeapp.components.NavigationStack
 import ar.edu.uade.c012026.animeapp.components.Screen
+import ar.edu.uade.c012026.animeapp.data.local.AnimeDatabaseProvider
 import ar.edu.uade.c012026.animeapp.ui.theme.AnimeAppTheme
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -71,6 +72,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         Log.d("ANIMEMAIN", "Evento OnCreate")
+
+        AnimeDatabaseProvider.createDatabase(this)
 
         // Configure Google Sign-In to request ID token
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
